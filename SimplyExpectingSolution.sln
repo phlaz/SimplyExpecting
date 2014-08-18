@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyExpecting", "SimplyExpecting\SimplyExpecting.csproj", "{35253C9B-61AE-4DBE-916E-EA19A8BE9553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyExpecting.Tests", "SimplyExpecting.Tests\SimplyExpecting.Tests.csproj", "{77C95EC2-3910-4C0D-B1A0-2EF15CF925EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35253C9B-61AE-4DBE-916E-EA19A8BE9553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35253C9B-61AE-4DBE-916E-EA19A8BE9553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35253C9B-61AE-4DBE-916E-EA19A8BE9553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35253C9B-61AE-4DBE-916E-EA19A8BE9553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77C95EC2-3910-4C0D-B1A0-2EF15CF925EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C95EC2-3910-4C0D-B1A0-2EF15CF925EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C95EC2-3910-4C0D-B1A0-2EF15CF925EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C95EC2-3910-4C0D-B1A0-2EF15CF925EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

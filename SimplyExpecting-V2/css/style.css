@@ -1,0 +1,142 @@
+﻿@import url("reset.css");
+@import url("micro-clearfix-hack.css");
+
+body {
+    color: white;
+    background: black;
+    max-width: 960px;
+    margin: auto;
+    box-sizing:border-box;
+    font-size: 62.5%;
+}
+
+
+#container {
+    font-size: 1.6em;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+div {
+}
+
+h1, h2, h3 {
+    font-weight:bold;
+    margin: 0 0 4px 0;
+}
+
+h1 {
+    font-size: 1.8em;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+p {
+    /*margin-bottom: 1.2em;*/
+}
+
+header {
+}
+
+    header nav {
+        float: left;
+    }
+
+        header nav ul li {
+            padding: 2.5em 0 2.5em 1em;
+            display: inline-block;
+        }
+
+#mainContent, #pageText, #homeImages, #pregnancyImages, #postPregnancyImages, #hypnoBirthingImages {
+    margin: 4px;
+}
+
+#mainContent {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 6px; 
+}
+
+
+li article {
+    border-top: 1px dotted #DDD;
+    padding: 4px;
+    margin: 10px 0 4px 0;
+}
+
+blockquote p:before {
+    content: "\201C";
+}
+
+blockquote p:after {
+    content: "\201D";
+}
+
+blockquote cite {
+    margin: 0 0 0 1.2em;
+}
+
+    blockquote cite:before {
+        content: "- ";
+    }
+
+    blockquote cite a {
+        font-size: 0.85em;
+    }
+
+#pageText {
+    width: 55%;
+    clear: both;
+    float:left;
+}
+
+#homeImages {
+    float: right;
+}
+
+#pregnancyImages {
+    float: right;
+    width: 40%;
+}
+
+#postPregnancyImages {
+    display:block;  
+    float: right;
+    width: 25%;
+}
+
+#pregnancyImage {
+    width: 48%;
+    height: 150px;
+    float:right;
+}
+
+#hypnoBirthingImages {
+}
+
+#faqImages {
+    float:right;
+    margin: auto;
+    width: 35%;
+}
+
+section h1 {
+    clear: left;
+}
+
+#aboutImages {
+    float: right;
+}
+
+footer {
+    clear: both;
+    margin: 0 auto 0;
+    text-align: center;
+}
+
+
