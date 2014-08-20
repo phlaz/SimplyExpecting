@@ -1,6 +1,11 @@
 ﻿@import url("reset.css");
 @import url("micro-clearfix-hack.css");
 
+@font-face{
+    font-family: Average;
+    src:url("../fonts/Average-Regular.eot");
+    src:local("Average"), url("../fonts/Average-Regular.woff");
+}
 body {
     color: #d3d1d1;
     background: rgb(252, 249, 233);
@@ -8,6 +13,7 @@ body {
     margin: auto;
     box-sizing:border-box;
     font-size: 62.5%;
+    font-family: Average, Georgia, sans-serif;
 }
 
 
@@ -131,25 +137,12 @@ blockquote cite {
     float:left;
 }
 
-#contactForm input{
-    margin: 5px auto;
-    width: 30em;
-}
 
-#testimonials{
-    float: right;
-    max-width: 250px;
-    height:400px;
-    overflow-y: scroll;
-}
-
-#contactImages{
-    float: right;
-}
 
 
 #homeImages {
     float: right;
+    width: 40%;
 }
 
 #pregnancyImages {
@@ -176,6 +169,31 @@ blockquote cite {
     float:right;
     margin: auto;
     width: 35%;
+}
+
+#contactForm{
+    width: 70%;
+}
+
+#contactForm input{
+    margin: 5px auto;
+    width:  500px;
+}
+
+#contactForm textarea {
+    overflow-y: hidden;
+    width:  500px;
+}
+
+#testimonials{
+    float: right;
+    width: 25%;
+    height:400px;
+    overflow-y: scroll;
+}
+
+#contactImages{
+    float:right;
 }
 
 section h1 {
