@@ -1,14 +1,8 @@
 ﻿///<references path="typings\jquery\jquery.d.ts" />
-var simplyExpecting = (function () {
-    function simplyExpecting() {
-        $(window).ready(function () {
-        });
-    }
-    simplyExpecting.prototype.loadNavigation = function () {
-        $('#navigation').load('..\templates\navigation-template.html', function (responseText, textStatus, httpRequest) {
-            var i = 1;
-        });
-    };
-    return simplyExpecting;
-})();
+///<reference path="viewModels.ts"/>
+///<reference path="typings\angularjs\angular.d.ts"/>
+///<reference path="typings\angularjs\angular-route.d.ts"/>
+angular.module("SimplyExpecting", ["viewModels"]).factory("contentStore", function () {
+    return new ContentStore();
+});
 //# sourceMappingURL=simplyExpecting.js.map

@@ -1,16 +1,9 @@
 ﻿///<references path="typings\jquery\jquery.d.ts" />
+///<reference path="viewModels.ts"/>
+///<reference path="typings\angularjs\angular.d.ts"/>
+///<reference path="typings\angularjs\angular-route.d.ts"/>
 
-class simplyExpecting {
-    constructor() { 
-        $(window).ready(() =>
-        { }
-            //this.loadNavigation()
-            );
-   }
-        
-    public loadNavigation() {
-        $('#navigation').load('..\templates\navigation-template.html', (responseText, textStatus, httpRequest) => { 
-            var i = 1;
-        });
-    }  
-} 
+angular.module("SimplyExpecting", ["viewModels"])
+    .factory("contentStore", () => new ContentStore());
+    
+
