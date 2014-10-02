@@ -11,11 +11,11 @@ var Sections;
 })(Sections || (Sections = {}));
 
 var Content = (function () {
-    function Content(Id, Version, Html, SectionId) {
+    function Content(Id, Version, SectionId, Html) {
         this.Id = Id;
         this.Version = Version;
-        this.Html = Html;
         this.SectionId = SectionId;
+        this.Html = Html;
     }
     Content.prototype.ProcessDataForStorage = function () {
         return this;
@@ -34,4 +34,12 @@ var MenuContent = (function (_super) {
     };
     return MenuContent;
 })(Content);
+
+var WebSocketMessage = (function () {
+    function WebSocketMessage(Message, Content) {
+        this.Message = Message;
+        this.Content = Content;
+    }
+    return WebSocketMessage;
+})();
 //# sourceMappingURL=models.js.map

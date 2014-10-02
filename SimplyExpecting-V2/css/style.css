@@ -2,6 +2,8 @@
 @import url("micro-clearfix-hack.css");
 @import url(http://fonts.googleapis.com/css?family=Average|Belgrano);
 
+@media only screen and (max-width:480px) {
+}
 
 body {
     color: #d3d1d1;
@@ -32,7 +34,7 @@ h1, h2, h3 {
 
 h1 {
     font-size: 1.8em;
-    padding: 0 0 10% 0;
+    padding: 0 0 1.2em 0;
     /*text-align:center;*/
 }
 
@@ -102,7 +104,7 @@ header nav {
     }
 
 p {
-    padding: 1.6em;
+    padding: 1.2em 0 0 1.2em;
 }
 
                  
@@ -114,25 +116,27 @@ p {
     line-height:1.6em;
 }
 
-
-
-
 li article {
     border-top: 1px dotted #DDD;
-    padding: 4px;
+    padding: 1.2em 1.1em 0 1.2em;
     margin: 10px 0 4px 0;
 }
 
-blockquote p:before {
+blockquote {
+    font-weight: bold;
+}
+
+blockquote > div:before {
     content: "\201C";
 }
 
-blockquote p:after {
+blockquote > div:after {
     content: "\201D";
 }
 
 blockquote cite {
     margin: 0 0 0 1.2em;
+    font-weight: normal
 }
 
     blockquote cite:before {
@@ -156,13 +160,29 @@ blockquote cite {
 }
 
 #editFlyout {
-    display:block;
+    margin: 1.4em;
     width:600px;
-    position:fixed;    
+    position:fixed;
+    visibility: hidden;    
 }
 
 #editArea {
+    display:inline-block;
+    font-size: 1.2em;
     width: 800px;
+    min-height: 60%;
+}
+
+.editButtons {
+    display: inline;
+}
+
+.editButtons > button {
+    border-radius:50%;
+}
+
+#editButton {
+    border-radius: 50%;
 }
 
 #homeImages {
@@ -177,7 +197,7 @@ blockquote cite {
         height: 150px;
     }
 
-#hypnoBirthing, #faq {
+#hypnoBirthing, #faq, #postPregnancy {
     overflow-y: scroll;
     max-height: 450px;
 }
@@ -241,6 +261,14 @@ footer {
 
 .underConstruction {
     /*background-image: url("http://tenebrousmagazine.com/sitebuildercontent/sitebuilderpictures/under_construction");*/
+}
+
+.userProfile #editButton {
+    visibility: hidden
+}
+
+.webmasterProfile > #editButton {
+    visibility:visible;
 }
 
 .glow {

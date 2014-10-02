@@ -1,4 +1,5 @@
-﻿using SimplyExpecting_V2.Data;
+﻿using Newtonsoft.Json;
+using SimplyExpecting_V2.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,47 +43,20 @@ namespace SimplyExpecting_V2.Models
 	[DataContract]
 	public class Content : IContent<Task<Content>>
 	{
-		[DataMember]
+		[DataMember(Order = 1),JsonProperty("Id")]
 		public int Id { get; set; }
 
-		[ForeignKey("Section"), DataMember]
+		[DataMember(Order = 2), JsonProperty("Version")]
+		public int Version { get; set; }
+
+		[ForeignKey("Section"), DataMember(Order = 3), JsonProperty("SectionId")]
 		public int SectionId { get;set; }
 
 		[ForeignKey("SectionId")]
 		public ContentSection Section { get;set; }
 
-		[DataMember]
-		public int Version { get; set; }
-
-		[DataMember]
+		[DataMember(Order = 4), JsonProperty("Html")]
 		public string Html { get;set; }
-
-		public Task<Content> ReadFromStoreAsync()
-		{
-			return Task.Run(() => Db.Instance.PageContent.FirstOrDefault(c => c.Id == Id));
-				/*
-				using (var db = new SimplyExpectingDataContext())
-				{
-					return db.PageContent.FirstOrDefault(c => c.Id == Id);
-                }
-				*/
-		}
-
-		public  Task<Content> ReadFromStoreAsync(string pageName, int version)
-		{
-			return Task.Run(() =>
-			{
-				using (var db = new SimplyExpectingDataContext())
-				{
-					return db.PageContent.Join(db.WebPages.Where(p => p.Name == pageName), c => c.SectionId, wb => wb.Id, (c, p) => new
-					{
-						Content = c,
-						PageName = p.Name
-					})
-					.Where(c => c.Content.Version > version).Select(c => c.Content).FirstOrDefault();
-				}
-			});
-		}
 
 		public Task<Content> ReadFromStoreAsync(int sectionId, int version)
 		{
@@ -91,8 +65,8 @@ namespace SimplyExpecting_V2.Models
 				using (var db = new SimplyExpectingDataContext())
 				{
 					var content = db.PageContent.Where(c => c.SectionId == sectionId && c.Version > version)
-												.OrderByDescending(c => c.Version)
-												.FirstOrDefault();
+									  		    .OrderByDescending(c => c.Version)
+											    .FirstOrDefault();
 
 					if (content == null)
 						content = new Content { SectionId = sectionId, Version = version };
@@ -107,12 +81,19 @@ namespace SimplyExpecting_V2.Models
 		{
 			return Task.Run(() =>
 			{
-				using (var db = new SimplyExpectingDataContext())
+				try
 				{
-					var lastVersion = db.PageContent.OrderByDescending(c => c.Version).Select(c => c.Version).FirstOrDefault();
-					Version = lastVersion + 1;
-					db.PageContent.Add(this);
-					db.SaveChanges();
+					using (var db = new SimplyExpectingDataContext())
+					{
+						var lastVersion = db.PageContent.OrderByDescending(c => c.Version).FirstOrDefault().Version;
+						Version = lastVersion + 1;
+						db.PageContent.Add(this);
+						db.SaveChanges();
+					}
+				}
+				catch(Exception x)
+				{
+					System.Diagnostics.Debug.WriteLine(x.Message);
 				}
 			});
 		}

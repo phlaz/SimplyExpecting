@@ -1,30 +1,36 @@
 ﻿///<reference path="clientSocket.ts"/>
 ///<reference path="models.ts"/>
 ///<reference path="typings\localForage\localForage.d.ts"/>
-///<reference path="typings\angularjs\angular.d.ts"/>
+
+var HttpStatus;
+(function (HttpStatus) {
+    HttpStatus[HttpStatus["OK"] = 200] = "OK";
+})(HttpStatus || (HttpStatus = {}));
+;
 
 var ContentStore = (function () {
     function ContentStore() {
         this.contentUrl = window.location.protocol + "//" + window.location.host + "/api/content/";
-        this.pushUrl = this.contentUrl.replace("https", "wss");
-        this.useWebSocket = true;
+        this.pushUrl = this.contentUrl.replace("http", "ws");
+        this.useWebSocket = false;
         this.localForage = window["localforage"];
         this.processBeforeStorage = new Array();
     }
-    ContentStore.prototype.Initialize = function () {
+    ContentStore.prototype.Initialize = function (showEditElement, hideEditElement) {
         var _this = this;
+        if (typeof showEditElement === "undefined") { showEditElement = null; }
+        if (typeof hideEditElement === "undefined") { hideEditElement = null; }
         var cls = this;
-
-        //var deferred = cls.qService.defer();
         var deferred = $.Deferred();
         if (WebSocket && this.useWebSocket) {
             this.socket = new ClientSocket(this.pushUrl, function (connected) {
                 cls.useWebSocket = true;
-                _this.socket.NewMessageReceived = function (message) {
-                    cls.StoreContent(message);
+                _this.socket.NewMessageReceived = function (content) {
+                    cls.StoreContent(content);
                     if (cls.HasNewContent)
-                        cls.HasNewContent(message);
+                        cls.HasNewContent(content);
                 };
+
                 deferred.resolve(connected);
             });
         } else
@@ -68,6 +74,17 @@ var ContentStore = (function () {
         return deferred;
     };
 
+    ContentStore.prototype.PostContent = function (content) {
+        var cls = this;
+        var deferred = $.Deferred();
+        if (cls.useWebSocket) {
+            cls.PostContentToWebSocket(content);
+            return deferred;
+        } else {
+            return cls.PostContentToService(content);
+        }
+    };
+
     ContentStore.prototype.GetContentFromStore = function (sectionId) {
         return this.localForage.getItem(sectionId.toString());
     };
@@ -79,16 +96,44 @@ var ContentStore = (function () {
 
         //if we're here, there is no content for this page yet, get from the websocket by sending a version value of 0,
         //this will get the latest version from the service
-        this.socket.GetContent(sectionId, 0);
+        this.socket.GetContent(new Content(0, 0, sectionId, ""));
+    };
+
+    ContentStore.prototype.PostContentToWebSocket = function (content) {
+        //if there is alrady valid content it will be the latest so use it
+        if (content == null)
+            return content;
+
+        //if we're here, there is no content for this page yet, get from the websocket by sending a version value of 0,
+        //this will get the latest version from the service
+        this.socket.SendContent(content);
     };
 
     ContentStore.prototype.GetContentFromService = function (sectionId, content) {
         var deferred = $.Deferred();
         var cls = this;
-
+        var currentContent = content;
         var version = content != null ? content.Version : 0;
         $.get(this.contentUrl + sectionId + "/" + version, function (data) {
-            var content = data;
+            if (data != null && data.Version != version) {
+                //this content is a newer version
+                currentContent = data;
+                cls.StoreContent(currentContent);
+            }
+
+            deferred.resolve(currentContent);
+        });
+
+        return deferred;
+    };
+
+    ContentStore.prototype.PostContentToService = function (content) {
+        var deferred = $.Deferred();
+        var cls = this;
+
+        var version = content != null ? content.Version : 0;
+        $.post(this.contentUrl, JSON.stringify({ Message: "PostContent", Content: { Content: content } }), function (data) {
+            var content = (data.Content);
             if (content != null && content.Version != version) {
                 //this content is a newer version
                 cls.StoreContent(content);
@@ -112,6 +157,11 @@ var ContentStore = (function () {
 
         //check that theres enough space to store the new content
         return this.localForage.setItem(content.SectionId.toString(), content);
+    };
+
+    ContentStore.prototype.EditContent = function (editArea, sectionId) {
+        var editor;
+        //this.GetContentFromStore(sectionId).then(content => editor = new ContentEditor(editArea, content));
     };
     return ContentStore;
 })();

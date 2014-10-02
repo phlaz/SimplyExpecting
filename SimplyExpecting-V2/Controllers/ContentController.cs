@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using simplyExpecting = SimplyExpecting_V2.Models;
+using SimplyExpecting_V2.Models;
+using System.Runtime.Serialization;
 
 namespace SimplyExpecting_V2.Controllers
 {
@@ -17,23 +19,20 @@ namespace SimplyExpecting_V2.Controllers
 		///	Initiates the request to open a websocket connection.
 		/// </summary>
 		/// <returns></returns>
-		[RequireHttps]
 		public HttpResponseMessage Get()
 		{
 			HttpContext.Current.AcceptWebSocketRequest(new SocketHandler());
 			return Request.CreateResponse(HttpStatusCode.SwitchingProtocols);
 		}
 
-		[RequireHttps]
 		[Route("{sectionId:int}/{version:int}")]
-		public Task<simplyExpecting.Content> Get(int sectionId, int version)
+		public Task<Content> Get(int sectionId, int version)
 		{
-			return sectionId == 1? GetMenu(version) : new simplyExpecting.Content().ReadFromStoreAsync(sectionId, version);
+			return sectionId == 1 ? GetMenu(version) : new simplyExpecting.Content().ReadFromStoreAsync(sectionId, version);
 		}
 
-		[RequireHttps]
 		[Route("{version:int}")]
-		public Task<simplyExpecting.Content> GetMenu(int version)
+		public Task<Content> GetMenu(int version)
 		{
 			var content = new simplyExpecting.MenuContent().ReadFromStoreAsync(simplyExpecting.SectionName.Menu, version);
 			var menu = simplyExpecting.MenuItem.ReadFromStoreAsync();
@@ -43,17 +42,26 @@ namespace SimplyExpecting_V2.Controllers
 			return content;
 		}
 
-		[RequireHttps]
 		[HttpPost]
-		public IHttpActionResult Post(simplyExpecting.Content content)
+		public Content Post(simplyExpecting.Content content)
 		{
 			content.WriteToStore();
-			return Ok(content);
+			return content;
 		}
 	}
 
 	internal class SocketHandler : WebSocketHandler
 	{
+		[DataContract]
+		internal class WebSocketMessage
+		{
+			[DataMember(Order =1), JsonProperty("Message")]
+			public string Message { get; set; }
+
+			[DataMember(Order = 2), JsonProperty("Content")]
+			public Content Content { get; set; }
+		}
+
 		internal static WebSocketCollection _connections = new WebSocketCollection();
 
 		DateTime _lastCommunication;
@@ -71,23 +79,37 @@ namespace SimplyExpecting_V2.Controllers
 
 		public override void OnMessage(string message)
 		{
+			var msg = JsonConvert.DeserializeObject<WebSocketMessage>(message);
+
+			if (msg.Message ==  "ContentRequest")
+				Send(ProcessRequestMessage(msg.Content));
+
+			if (msg.Message == "ContentPost")
+				ProcessPostMessage(msg.Content);
+		}
+
+		private void ProcessPostMessage(Content content)
+		{
+			content.WriteToStore().ContinueWith(t => BroadcastNewContent(content));
+		}
+
+		private string ProcessRequestMessage(Content content)
+		{
 			_lastCommunication = DateTime.Now;
-			var values = message.Split(':');
-			int.TryParse(values[0], out int page);
-			int.TryParse(values[1], out int version);
-			simplyExpecting.Content content = null;
+			int page = content.SectionId;
+			int version = content.Version;
 			switch (page)
 			{
 				case simplyExpecting.SectionName.Menu:
-					content = new ContentController().GetMenu(version).Result;
+					//content = new ContentController().GetMenu(version).Result;
 					break;
 
 				default:
-					content = new ContentController().Get(int.Parse(values[0]), int.Parse(values[1])).Result;
+					//content = new ContentController().Get(page, version).Result;
 					break;
 			}
-			
-			Send(JsonConvert.SerializeObject(content));
+
+			return JsonConvert.SerializeObject(content);
 		}
 
 		public override void OnClose()

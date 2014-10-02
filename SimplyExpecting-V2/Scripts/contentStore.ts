@@ -1,7 +1,6 @@
 ﻿///<reference path="clientSocket.ts"/>
 ///<reference path="models.ts"/>                     
 ///<reference path="typings\localForage\localForage.d.ts"/>
-///<reference path="typings\angularjs\angular.d.ts"/>
 
 interface IContentStore {
     IsConnectedToContentService: () => void;
@@ -11,29 +10,33 @@ interface IContentStore {
     Get(sectionId: number): JQueryDeferred<Content>;
 }
 
+enum HttpStatus { OK = 200 };
+
 class ContentStore implements IContentStore {
         
     private contentUrl: string = window.location.protocol + "//" +  window.location.host + "/api/content/";
-    private pushUrl = this.contentUrl.replace("https", "wss");
-    private useWebSocket: boolean = true;
+    private pushUrl = this.contentUrl.replace("http", "ws");
+    private useWebSocket: boolean = false;
     private socket: ClientSocket;
     private localForage: lf.ILocalForage<IContent> = <lf.ILocalForage<IContent>>window["localforage"];
     private processBeforeStorage: Array<{ SectionId: Sections; Functions: Array<(content: IContent) => IContent> }> = new Array();
+    private editor: ContentEditor;
+
+
     public IsConnectedToContentService: () => void;
     public HasNewContent: (content: IContent) => void;
 
-    public Initialize(): JQueryDeferred<boolean> {
-        
+    public Initialize(showEditElement: string = null, hideEditElement: string = null): JQueryDeferred<boolean> {
         var cls = this;
-        //var deferred = cls.qService.defer();
         var deferred = $.Deferred();
         if (WebSocket && this.useWebSocket) {
             this.socket = new ClientSocket(this.pushUrl, connected => {
                 cls.useWebSocket = true;
-                this.socket.NewMessageReceived = message => {
-                    cls.StoreContent(message);
-                    if (cls.HasNewContent) cls.HasNewContent(message);
+                this.socket.NewMessageReceived = content => {
+                    cls.StoreContent(content);
+                    if (cls.HasNewContent) cls.HasNewContent(content);
                 };
+                
                 deferred.resolve(connected);
             });
         }
@@ -71,8 +74,20 @@ class ContentStore implements IContentStore {
             }
         });
 
-        return deferred;//.promise;
+        return deferred;
     }
+
+    public PostContent(content: Content): JQueryDeferred<Content> {
+        var cls = this;
+        var deferred = $.Deferred();
+        if (cls.useWebSocket) {
+            cls.PostContentToWebSocket(content);
+            return deferred;
+        }
+        else {
+            return cls.PostContentToService(content)
+        }
+    } 
 
     private GetContentFromStore(sectionId: number): lf.IPromise<IContent> {
         return this.localForage.getItem(sectionId.toString());
@@ -84,24 +99,51 @@ class ContentStore implements IContentStore {
         
         //if we're here, there is no content for this page yet, get from the websocket by sending a version value of 0, 
         //this will get the latest version from the service
-        this.socket.GetContent(sectionId, 0);
+        this.socket.GetContent(new Content(0, 0, sectionId, ""));
+    }
+
+    private PostContentToWebSocket(content: IContent): IContent {
+        //if there is alrady valid content it will be the latest so use it
+        if (content == null) return content;
+
+        //if we're here, there is no content for this page yet, get from the websocket by sending a version value of 0, 
+        //this will get the latest version from the service
+        this.socket.SendContent(content);
     }
 
     private GetContentFromService(sectionId : number, content: IContent): JQueryDeferred<Content> {//: ng.IPromise<IContent> {
         var deferred = $.Deferred();// this.qService.defer();
         var cls = this;
-        
+        var currentContent = content;
         var version = content != null ? content.Version : 0;
        $.get(this.contentUrl + sectionId + "/" + version, data=>
             {
-           var content = <Content>data;
-                if (content != null && content.Version != version) {
+                if (data != null && data.Version != version) {
                     //this content is a newer version
-                    cls.StoreContent(content);
+                    currentContent = <Content>data;
+                    cls.StoreContent(currentContent);
                 }
 
-                deferred.resolve(content);
+                deferred.resolve(currentContent);
             });
+
+        return deferred;
+    }
+
+    private PostContentToService(content: IContent): JQueryDeferred<Content> {//: ng.IPromise<IContent> {
+        var deferred = $.Deferred();// this.qService.defer();
+        var cls = this;
+
+        var version = content != null ? content.Version : 0;
+        $.post(this.contentUrl, JSON.stringify({ Message: "PostContent", Content: { Content: content } }), data=> {
+            var content = <Content>(data.Content);
+            if (content != null && content.Version != version) {
+                //this content is a newer version
+                cls.StoreContent(content);
+            }
+
+            deferred.resolve(content);
+        });
 
         return deferred;
     }
@@ -114,5 +156,11 @@ class ContentStore implements IContentStore {
 
         //check that theres enough space to store the new content
         return this.localForage.setItem(content.SectionId.toString(), content);
+    }
+
+    public EditContent(editArea: HTMLElement, sectionId: Sections) {
+        var editor: ContentEditor;
+        //this.GetContentFromStore(sectionId).then(content => editor = new ContentEditor(editArea, content));
+
     }
 } 

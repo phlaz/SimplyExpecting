@@ -9,7 +9,7 @@ interface IContent {
 }
 
 class Content implements IContent {
-    constructor(public Id: number, public Version: number, public Html: string, public SectionId: number) {
+    constructor(public Id: number, public Version: number, public SectionId: number, public Html: string) {
     }
 
     ProcessDataForStorage(): any {
@@ -23,3 +23,7 @@ class MenuContent extends Content{
         return this;
     }
 } 
+
+class WebSocketMessage {
+    constructor(public Message: string, public Content: Content) { }
+}

@@ -1,28 +1,32 @@
 ﻿///<reference path="typings\jquery\jquery.d.ts"/>
 ///<reference path="models.ts"/>
+///<reference path="typings\winjs\winjs-2.1.d.ts"/>
 
 class ContentEditor {
 
-    constructor(showEditElement: string, hideEditElement: string, SectionId: Sections, public Html: string) {
-        var cls = this;
-        WinJS.UI.processAll().then(function () {
-            
-            document.getElementById(showEditElement).addEventListener("click", cls.ShowEditArea, false);
-            document.getElementById(hideEditElement).addEventListener("click", cls.HideEditArea, false);
-            cls.ShowEditElement = document.getElementById(showEditElement);
-        });
+    constructor(private ShowEditorElement: HTMLElement, private hideEditorElement : HTMLElement) {
+        var cls = this;     
+        this.EditorFlyout = document.getElementById("editFlyout");   
+        
+        if (this.EditorFlyout == undefined) 
+            throw "Add an element called editFlyout to house the editor.";
+        
+        
     }
 
     private _deferred: JQueryDeferred<string> = $.Deferred();
 
-    public ShowEditElement: HTMLElement;
+    public Html: string;
 
-    public ShowEditArea(): JQueryDeferred<string> {
-        document.getElementById("editFlyout").winControl.show(this.ShowEditElement);
+    public EditorFlyout: HTMLElement;
+
+    public Edit(): JQueryDeferred<string> {
+        this.EditorFlyout.winControl.show(this.ShowEditorElement);
         return this._deferred;
     }
 
-    HideEditArea() {
+    public HideEditArea() {
+        this.EditorFlyout.winControl.hide();
         this._deferred.resolve(this.Html);
     }
 }                                                                         

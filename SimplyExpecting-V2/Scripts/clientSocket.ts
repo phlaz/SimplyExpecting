@@ -2,9 +2,7 @@
 class ClientSocket  {
     constructor (url: string, onInitialize: (connected: boolean) => void = null) {
         this._socket = new WebSocket(url);
-        var me = this;
         this._socket.onerror = ev => {
-            if (onInitialize) onInitialize(false);
         };
 
         this._socket.onclose = ev => {
@@ -20,22 +18,25 @@ class ClientSocket  {
         };
     }
 
+    private _deferred: JQueryDeferred<string>;
+
     private _socket: WebSocket;
 
 
-    public NewMessageReceived: (content: IContent) => void;
+    public NewMessageReceived: (content: any) => void;
 
     public Connect() {
         
     } 
 
-    public SendContent(html: string): void {
-        this._socket.send(html);
+    public SendContent(content: IContent): void {
+        this._socket.send(JSON.stringify(new WebSocketMessage("ContentPost", content)));
+        this._deferred = $.Deferred();
     }
 
-    public GetContent(contentId: number, version: number) {
-        if(this._socket.readyState == WebSocket.OPEN)
-            this._socket.send(contentId + ":" + version);
+    public GetContent(content : IContent) {
+        if (this._socket.readyState == WebSocket.OPEN)
+            this._socket.send(JSON.stringify(new WebSocketMessage("ContentRequest", content)));
     }
 
 

@@ -3,10 +3,7 @@
         if (typeof onInitialize === "undefined") { onInitialize = null; }
         var _this = this;
         this._socket = new WebSocket(url);
-        var me = this;
         this._socket.onerror = function (ev) {
-            if (onInitialize)
-                onInitialize(false);
         };
 
         this._socket.onclose = function (ev) {
@@ -25,13 +22,14 @@
     ClientSocket.prototype.Connect = function () {
     };
 
-    ClientSocket.prototype.SendContent = function (html) {
-        this._socket.send(html);
+    ClientSocket.prototype.SendContent = function (content) {
+        this._socket.send(JSON.stringify(new WebSocketMessage("ContentPost", content)));
+        this._deferred = $.Deferred();
     };
 
-    ClientSocket.prototype.GetContent = function (contentId, version) {
+    ClientSocket.prototype.GetContent = function (content) {
         if (this._socket.readyState == WebSocket.OPEN)
-            this._socket.send(contentId + ":" + version);
+            this._socket.send(JSON.stringify(new WebSocketMessage("ContentRequest", content)));
     };
     return ClientSocket;
 })();

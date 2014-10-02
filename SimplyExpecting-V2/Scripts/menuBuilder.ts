@@ -21,7 +21,7 @@ class MenuBuilder {
 
         //only add a click event if there are no MenuItem children
         if (item.Children.length == 0)
-            this.Html += "onclick=\"app.GetContent(this, " + item.ContentId + ")\"";
+            this.Html += "onclick=\"app.GetContent(" + item.ContentId + ")\"";
 
         //close the <li> and add a <a> tag
         this.Html += ">" + item.Caption + "</a>";
