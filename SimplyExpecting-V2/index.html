@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="utf-8" />
+    <title>Simply Expecting Pilates and Hypnobirthing Classes</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
+    <script src="Scripts/jquery.min.js"></script>
+    <script src="Scripts/winjs/WinJS.js"></script>
+    <script src="Scripts/bridgeit/bridgeit.js"></script>
+    <script src="Scripts/models.js"></script>
+    <script src="Scripts/contentStore.js"></script>
+    <script src="Scripts/contentEditor.js"></script>
+    <script src="Scripts/clientSocket.js"></script>
+    <script src="Scripts/menuBuilder.js"></script>
+    <script src="Scripts/localforage.js"></script>
+    <script src="Scripts/simplyExpecting.js"></script>
+    <script src="Scripts/bridgeit.js"></script>
+</head>
+<body ng-app="SimplyExpecting">
+    <!-- Page container-->
+    <div id="container" class="userProfile" ng-view>
+        <header class="group">
+            <!-- logo-->
+            <div id="logo" itemprop="image">Logo goes here</div>
+
+            <!-- navigation-->
+            <nav id="menu" ng-model="Menu">
+            </nav>
+        </header>
+
+        <!-- main content-->
+        <div id="mainContent" class="group" ng-controller="ContentController">
+
+            <div id="editContent" ng-model="">
+                <button id="editButton">edit</button>
+                <div id="editFlyout" data-win-control="WinJS.UI.Flyout">
+                    <textarea id="editArea" rows="30"></textarea>
+                    <div class="editButtons">
+                        <button id="doneEditingButton">done</button>
+                        <button id="previewEditingButton">preview</button>
+                        <button id="publishButton">publish</button>
+                    </div>
+                </div>
+            </div>
+
+            <section id="homeText"></section>
+
+            <div id="homeImages" ng-repeat="url in ImageUrls">
+                <img itemprop="image" src="{url}" alt="Home Page Image">
+            </div>
+            
+        </div>
+
+        <!-- footer-->
+        <footer>
+            <small>&copy; Simply Expecting Pilates. All Rights Reserved</small>
+            -
+            <a href="sitemap.html" title="Links to all the pages on this website.">sitemap</a>
+            <br />
+            <a href="#" onclick="app.LoginAsWebmaster()" title="webmaster login">webmaster</a>
+        </footer>
+    </div>
+    <script type="text/javascript">
+        var app = new SimplyExpectingApp();
+    </script>
+</body>
+</html>

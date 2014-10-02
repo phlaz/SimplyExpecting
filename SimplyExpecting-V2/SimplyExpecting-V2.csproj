@@ -14,13 +14,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimplyExpecting_V2</RootNamespace>
     <AssemblyName>SimplyExpecting-V2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,18 +41,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FuturePrimitive">
+      <HintPath>..\..\FuturePrimitive\FuturePrimitive-Dev\4.5\Framework\Windows\FuturePrimitive.Tao\bin\Debug\FuturePrimitive.dll</HintPath>
+    </Reference>
+    <Reference Include="FuturePrimitive.Enlightenment">
+      <HintPath>..\..\FuturePrimitive\Windows\FuturePrimitive.Enlightenment\bin\Debug\FuturePrimitive.Enlightenment.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.WebSockets">
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.WebSockets.0.2.3\lib\net45\Microsoft.WebSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -60,26 +89,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting">
-      <HintPath>..\..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <HintPath>..\..\..\Rocket Science\HTML Foundations\WebApplication1\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="css\micro-clearfix-hack.css" />
     <Content Include="css\reset.css" />
     <Content Include="Global.asax" />
-    <Content Include="html\index_b.html" />
-    <Content Include="html\contact.html" />
-    <Content Include="html\test.html" />
     <Content Include="images\classTimes1.png" />
     <Content Include="images\contact1.png" />
     <Content Include="images\faq1.png" />
@@ -93,28 +105,50 @@
     <Content Include="images\pregnancy4.png" />
     <Content Include="images\testimonials1.png" />
     <Content Include="images\testimonials2.png" />
-    <Content Include="templates\navigation-template.html" />
-    <Content Include="html\testimonials.html" />
-    <Content Include="html\timetable.html" />
-    <Content Include="html\faq.html" />
-    <Content Include="html\hypnobirthing.html" />
-    <Content Include="html\postpregnancy.html" />
-    <Content Include="html\pregnancy.html" />
-    <Content Include="html\about.html" />
-    <Content Include="html\index.html" />
+    <Content Include="index.html" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bridgeit\bridgeit.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\winjs\base.js" />
+    <Content Include="Scripts\winjs\base.min.js" />
+    <Content Include="Scripts\winjs\en-US\ui.strings.js" />
+    <Content Include="Scripts\winjs\ui.js" />
+    <Content Include="Scripts\winjs\ui.min.js" />
+    <Content Include="Scripts\winjs\WinJS.js" />
+    <Content Include="Scripts\winjs\WinJS.min.js" />
+    <Content Include="Scripts\localforage.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="css\style.css" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ContactFormController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\RequireHttpsAttribute.cs" />
+    <Compile Include="Data\SimplyExpectingDataContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContactForm.cs" />
+    <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\ContentPost.cs" />
+    <Compile Include="Models\ContentRequest.cs" />
+    <Compile Include="Models\ContentSection.cs" />
+    <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="templates\templates.shtml" />
+    <Content Include="Scripts\winjs\base.min.js.map" />
+    <Content Include="Scripts\winjs\ui.min.js.map" />
+    <Content Include="Scripts\winjs\WinJS.min.js.map" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -123,19 +157,38 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\bridgeit.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\clientSocket.ts" />
+    <TypeScriptCompile Include="Scripts\contentEditor.ts" />
+    <TypeScriptCompile Include="Scripts\contentStore.ts" />
+    <TypeScriptCompile Include="Scripts\IHierarchy.ts" />
+    <TypeScriptCompile Include="Scripts\menuBuilder.ts" />
+    <TypeScriptCompile Include="Scripts\models.ts" />
     <TypeScriptCompile Include="Scripts\simplyExpecting.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\localForage\localForage.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\winjs\winjs-2.1.d.ts" />
+    <TypeScriptCompile Include="Scripts\viewModels.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="html\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptOutFile>simplyExpecting.js</TypeScriptOutFile>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
